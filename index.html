@@ -40,7 +40,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="anotherClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" form="cepForm" class="btn btn-primary">Check Delivery</button>
       </div>
     </div>
@@ -129,7 +129,7 @@
       });
 
       // Event listener for modal close button (in modal footer)
-      document.querySelector(".modal-footer button[data-dismiss='modal']").addEventListener("click", function() {
+      document.getElementById("anotherClose").addEventListener("click", function() {
           const noModalCheckbox = document.getElementById("noModalCheckbox");
           if (noModalCheckbox.checked) {
               localStorage.setItem('noModal', 'true');
