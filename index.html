@@ -4,47 +4,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>.</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Unique modal styles */
+    #deliveryModal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      padding: 20px;
+      z-index: 10000; /* Ensure modal is on top */
+    }
+
+    /* Unique modal header styles */
+    #deliveryModal .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    /* Unique modal body styles */
+    #deliveryModal .modal-body {
+      margin-bottom: 20px;
+    }
+
+    /* Unique modal footer styles */
+    #deliveryModal .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Unique close button styles */
+    #deliveryModal .close-button {
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #999;
+    }
+
+    /* Unique form styles */
+    #deliveryModal .form-group {
+      margin-bottom: 20px;
+    }
+
+    /* Unique checkbox styles */
+    #deliveryModal .form-check-label {
+      margin-left: 5px;
+    }
+
+    /* Unique validation result styles */
+    #deliveryModal .validation-result {
+      margin-bottom: 20px;
+    }
+
+    /* Unique button styles */
+    #deliveryModal .btn {
+      cursor: pointer;
+      padding: 8px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    #deliveryModal .btn-secondary {
+      background-color: #ccc;
+    }
+
+    /* Unique alert styles */
+    #deliveryModal .alert {
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+
+    #deliveryModal .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    #deliveryModal .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
 </head>
 <body>
 
-
 <!-- Modal -->
-<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deliveryModalLabel">Check Delivery Availability</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div class="modal" id="deliveryModal">
+  <div class="modal-header">
+    <h5 class="modal-title" id="deliveryModalLabel">Check Delivery Availability</h5>
+    <button type="button" class="close-button" aria-label="Close" id="closeButton">&times;</button>
+  </div>
+  <div class="modal-body">
+    <form id="cepForm">
+      <div class="form-group">
+        <label for="cepInput">Enter your CEP:</label>
+        <input type="text" class="form-control" id="cepInput" required>
       </div>
-      <div class="modal-body">
-        <form id="cepForm">
-          <div class="form-group">
-            <label for="cepInput">Enter your CEP:</label>
-            <input type="text" class="form-control" id="cepInput" required>
-          </div>
-          <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="noModalCheckbox">
-            <label class="form-check-label" for="noModalCheckbox">Do not show this again</label>
-          </div>
-          <div id="validationResult"></div> <!-- Added message element for validation result -->
-        </form>
+      <div class="form-group">
+        <input type="checkbox" class="form-check-input" id="noModalCheckbox">
+        <label class="form-check-label" for="noModalCheckbox">Do not show this again</label>
       </div>
-      <div class="modal-footer">
-        <button id="anotherClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" form="cepForm" class="btn btn-primary">Check Delivery</button>
-      </div>
-    </div>
+      <div class="validation-result" id="validationResult"></div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="anotherClose" type="button" class="btn btn-secondary">Close</button>
+    <button type="submit" form="cepForm" class="btn btn-primary">Check Delivery</button>
   </div>
 </div>
-
-<!-- Bootstrap JS and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
   // JavaScript logic
@@ -84,12 +161,9 @@
       // Function to open modal if on root page and not opted out
       function openModalIfRootPage() {
           const currentPage = window.location.pathname;
-          console.log("Current Page:", currentPage);
           const modalOptedOut = localStorage.getItem('noModal');
-          console.log("Modal Opted Out:", modalOptedOut);
           if ((currentPage === "/" || currentPage === "/index.html") && modalOptedOut !== 'true') {
-              console.log("Opening Modal");
-              $('#deliveryModal').modal('show');
+              document.getElementById('deliveryModal').style.display = 'block';
           }
       }
 
@@ -110,27 +184,25 @@
               localStorage.setItem('noModal', 'true');
           }
           // You can close the modal here if needed
-          // $('#deliveryModal').modal('hide');
+          // document.getElementById('deliveryModal').style.display = 'none';
       });
 
       // Event listener for modal close button (in modal header)
       document.getElementById("closeButton").addEventListener("click", function() {
           const noModalCheckbox = document.getElementById("noModalCheckbox");
-          console.log("close", noModalCheckbox.checked)
           if (noModalCheckbox.checked) {
               localStorage.setItem('noModal', 'true');
           }
-          $('#deliveryModal').modal('hide');
+          document.getElementById('deliveryModal').style.display = 'none';
       });
 
       // Event listener for modal close button (in modal footer)
       document.getElementById("anotherClose").addEventListener("click", function() {
           const noModalCheckbox = document.getElementById("noModalCheckbox");
-          console.log("close", noModalCheckbox.checked)
           if (noModalCheckbox.checked) {
               localStorage.setItem('noModal', 'true');
           }
-          $('#deliveryModal').modal('hide');
+          document.getElementById('deliveryModal').style.display = 'none';
       });
 
       // Open modal if on root page and not opted out
