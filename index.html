@@ -91,7 +91,6 @@
       function openModalIfRootPage() {
           const currentPage = window.location.pathname;
           const modalOptedOut = localStorage.getItem('noModal');
-          $('#deliveryModal').modal('show');
           if ((currentPage === "/" || currentPage === "/index.html") && !modalOptedOut) {
               $('#deliveryModal').modal('show');
           }
