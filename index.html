@@ -90,8 +90,11 @@
       // Function to open modal if on root page and not opted out
       function openModalIfRootPage() {
           const currentPage = window.location.pathname;
+          console.log("Current Page:", currentPage);
           const modalOptedOut = localStorage.getItem('noModal');
+          console.log("Modal Opted Out:", modalOptedOut);
           if ((currentPage === "/" || currentPage === "/index.html") && modalOptedOut !== 'true') {
+              console.log("Opening Modal");
               $('#deliveryModal').modal('show');
           }
       }
