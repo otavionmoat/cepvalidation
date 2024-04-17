@@ -122,6 +122,7 @@
       // Event listener for modal close button
       document.getElementById("closeButton").addEventListener("click", function() {
           const noModalCheckbox = document.getElementById("noModalCheckbox");
+          console.log("button close clicked, checkbox is:", noModalCheckbox.checked)
           if (noModalCheckbox.checked) {
               localStorage.setItem('noModal', 'true');
           }
