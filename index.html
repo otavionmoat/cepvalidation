@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Check</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<!-- Your ecommerce content goes here -->
+<div class="container">
+  <!-- Add your ecommerce content here -->
+  <h1>Welcome to our ecommerce site!</h1>
+  <p>Check if we deliver to your area.</p>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deliveryModalLabel">Check Delivery Availability</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="cepForm">
+          <div class="form-group">
+            <label for="cepInput">Enter your CEP:</label>
+            <input type="text" class="form-control" id="cepInput" required>
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="noModalCheckbox">
+            <label class="form-check-label" for="noModalCheckbox">Do not show this again</label>
+          </div>
+          <div id="validationResult"></div> <!-- Added message element for validation result -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" form="cepForm" class="btn btn-primary">Check Delivery</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // JavaScript logic
+  document.addEventListener("DOMContentLoaded", function() {
+      const cepRanges = [
+          ["01227-200", "01415-910"],
+          ["01306-000", "01343-901"],
+          ["01150-000", "01233-907"],
+          ["01035-100", "01220-908"],
+          ["01401-000", "04504-030"],
+          ["01107-000", "01189-900"],
+          ["01134-901", "01156-900"],
+          ["01515-000", "01552-080"],
+          ["01322-030", "01527-080"],
+          ["01001-000", "01514-030"],
+          ["05004-000", "05021-020"],
+          ["05038-090", "05086-900"],
+          ["05088-110", "05468-919"],
+          ["03011-006", "03035-413"],
+          ["03001-003", "03102-007"],
+          ["03163-010", "03378-070"]
+      ];
+
+      // Function to check delivery availability
+      function checkDelivery(cep) {
+          for (const range of cepRanges) {
+              const startCEP = parseInt(range[0].replace("-", ""), 10);
+              const endCEP = parseInt(range[1].replace("-", ""), 10);
+              const userCEP = parseInt(cep.replace("-", ""), 10);
+              if (userCEP >= startCEP && userCEP <= endCEP) {
+                  return true;
+              }
+          }
+          return false;
+      }
+
+      // Function to open modal if on root page and not opted out
+      function openModalIfRootPage() {
+          const currentPage = window.location.pathname;
+          const modalOptedOut = localStorage.getItem('noModal');
+          $('#deliveryModal').modal('show');
+          if ((currentPage === "/" || currentPage === "/index.html") && !modalOptedOut) {
+              $('#deliveryModal').modal('show');
+          }
+      }
+
+      // Event listener for form submission
+      document.getElementById("cepForm").addEventListener("submit", function(event) {
+          event.preventDefault();
+          const cep = document.getElementById("cepInput").value.trim();
+          const deliveryAvailable = checkDelivery(cep);
+          const messageElement = document.getElementById("validationResult");
+          if (deliveryAvailable) {
+              messageElement.innerHTML = "<div class='alert alert-success' role='alert'>Delivery is available to your area!</div>";
+          } else {
+              messageElement.innerHTML = "<div class='alert alert-danger' role='alert'>Sorry, delivery is not available to your area.</div>";
+          }
+          // Check if checkbox is checked and persist the decision
+          const noModalCheckbox = document.getElementById("noModalCheckbox");
+          if (noModalCheckbox.checked) {
+              localStorage.setItem('noModal', 'true');
+          }
+          // You can close the modal here if needed
+          // $('#deliveryModal').modal('hide');
+      });
+
+      // Event listener for modal close button
+      document.getElementById("closeButton").addEventListener("click", function() {
+          const noModalCheckbox = document.getElementById("noModalCheckbox");
+          if (noModalCheckbox.checked) {
+              localStorage.setItem('noModal', 'true');
+          }
+      });
+
+      // Open modal if on root page and not opted out
+      openModalIfRootPage();
+  });
+</script>
+
+</body>
+</html>
+
