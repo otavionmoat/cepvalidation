@@ -93,7 +93,6 @@
           console.log("Current Page:", currentPage);
           const modalOptedOut = localStorage.getItem('noModal');
           console.log("Modal Opted Out:", modalOptedOut);
-          $('#deliveryModal').modal('show');
           if ((currentPage === "/" || currentPage === "/index.html") && modalOptedOut !== 'true') {
               console.log("Opening Modal");
               $('#deliveryModal').modal('show');
