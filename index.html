@@ -173,9 +173,9 @@
           const deliveryAvailable = checkDelivery(cep);
           const messageElement = document.getElementById("validationResult");
           if (deliveryAvailable) {
-              messageElement.innerHTML = "<div class='alert alert-success' role='alert'>Delivery is available to your area!</div>";
+              messageElement.innerHTML = "<div class='alert alert-success' role='alert'>Entregamos em sua área!😊</div>";
           } else {
-              messageElement.innerHTML = "<div class='alert alert-danger' role='alert'>Sorry, delivery is not available to your area.</div>";
+              messageElement.innerHTML = "<div class='alert alert-danger' role='alert'>Desculpa, ainda não entregamos em sua área😓</div>";
           }
           // Check if checkbox is checked and persist the decision
           const noModalCheckbox = document.getElementById("noModalCheckbox");
