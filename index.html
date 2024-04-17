@@ -91,7 +91,7 @@
       function openModalIfRootPage() {
           const currentPage = window.location.pathname;
           const modalOptedOut = localStorage.getItem('noModal');
-          if ((currentPage === "/" || currentPage === "/index.html") && !modalOptedOut) {
+          if ((currentPage === "/" || currentPage === "/index.html") && modalOptedOut !== 'true') {
               $('#deliveryModal').modal('show');
           }
       }
