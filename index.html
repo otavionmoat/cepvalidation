@@ -119,13 +119,22 @@
           // $('#deliveryModal').modal('hide');
       });
 
-      // Event listener for modal close button
+      // Event listener for modal close button (in modal header)
       document.getElementById("closeButton").addEventListener("click", function() {
           const noModalCheckbox = document.getElementById("noModalCheckbox");
-          console.log("button close clicked, checkbox is:", noModalCheckbox.checked)
           if (noModalCheckbox.checked) {
               localStorage.setItem('noModal', 'true');
           }
+          $('#deliveryModal').modal('hide');
+      });
+
+      // Event listener for modal close button (in modal footer)
+      document.querySelector(".modal-footer button[data-dismiss='modal']").addEventListener("click", function() {
+          const noModalCheckbox = document.getElementById("noModalCheckbox");
+          if (noModalCheckbox.checked) {
+              localStorage.setItem('noModal', 'true');
+          }
+          $('#deliveryModal').modal('hide');
       });
 
       // Open modal if on root page and not opted out
