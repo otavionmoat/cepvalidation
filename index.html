@@ -133,22 +133,15 @@
   // JavaScript logic
   document.addEventListener("DOMContentLoaded", function() {
       const cepRanges = [
-          ["01227-200", "01415-910"],
-          ["01306-000", "01343-901"],
-          ["01150-000", "01233-907"],
-          ["01035-100", "01220-908"],
-          ["01401-000", "04504-030"],
-          ["01107-000", "01189-900"],
-          ["01134-901", "01156-900"],
-          ["01515-000", "01552-080"],
-          ["01322-030", "01527-080"],
-          ["01001-000", "01514-030"],
-          ["05004-000", "05021-020"],
-          ["05038-090", "05086-900"],
-          ["05088-110", "05468-919"],
-          ["03011-006", "03035-413"],
-          ["03001-003", "03102-007"],
-          ["03163-010", "03378-070"]
+          ["5088110", "5469005"],
+          ["3163010", "3378070"],
+          ["3001003", "3102007"],
+          ["1000000", "1599999"],
+          ["4551090", "4717110"],
+          ["5038090", "5086900"],
+          ["4139081", "4524999"],
+          ["5004000", "5021020"],
+          ["4007000", "4139080"],
       ];
 
       // Function to check delivery availability
@@ -168,6 +161,8 @@
       function openModalIfRootPage() {
           const currentPage = window.location.pathname;
           const modalOptedOut = localStorage.getItem('noModal');
+          document.getElementById('deliveryModal').style.display = 'block';
+
           if ((currentPage === "/" || currentPage === "/index.html") && modalOptedOut !== 'true') {
               document.getElementById('deliveryModal').style.display = 'block';
           }
